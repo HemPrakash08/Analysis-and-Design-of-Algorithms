@@ -1,0 +1,56 @@
+import java.util.Arrays;
+
+public class SortingAnalysis {
+
+    static void bubbleSort(int[] arr) {
+        int n = arr.length;
+        for (int i = 0; i < n - 1; i++)
+            for (int j = 0; j < n - i - 1; j++)
+                if (arr[j] > arr[j + 1]) {
+                    int tmp = arr[j]; arr[j] = arr[j+1]; arr[j+1] = tmp;
+                }
+    }
+
+    static void selectionSort(int[] arr) {
+        int n = arr.length;
+        for (int i = 0; i < n - 1; i++) {
+            int minIdx = i;
+            for (int j = i + 1; j < n; j++)
+                if (arr[j] < arr[minIdx]) minIdx = j;
+            int tmp = arr[minIdx]; arr[minIdx] = arr[i]; arr[i] = tmp;
+        }
+    }
+
+    static void insertionSort(int[] arr) {
+        int n = arr.length;
+        for (int i = 1; i < n; i++) {
+            int key = arr[i], j = i - 1;
+            while (j >= 0 && arr[j] > key) { arr[j + 1] = arr[j]; j--; }
+            arr[j + 1] = key;
+        }
+    }
+
+    static long measureTime(int[] original, String algo) {
+        int[] arr = Arrays.copyOf(original, original.length);
+        long start = System.nanoTime();
+        if (algo.equals("bubble"))    bubbleSort(arr);
+        else if (algo.equals("select")) selectionSort(arr);
+        else                            insertionSort(arr);
+        return System.nanoTime() - start;
+    }
+
+    public static void main(String[] args) {
+        int[] sizes = {10, 20, 30, 40};
+        System.out.println("Size\tBubble(ns)\tSelection(ns)\tInsertion(ns)");
+        for (int n : sizes) {
+            // Worst case: reverse sorted array
+            int[] arr = new int[n];
+            for (int i = 0; i < n; i++) arr[i] = n - i;
+            System.out.printf("%d\t%d\t\t%d\t\t%d%n",
+                n,
+                measureTime(arr, "bubble"),
+                measureTime(arr, "select"),
+                measureTime(arr, "insertion"));
+        }
+    }
+}
