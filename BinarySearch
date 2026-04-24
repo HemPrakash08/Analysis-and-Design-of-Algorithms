@@ -1,0 +1,35 @@
+public class BinarySearch {
+
+    static int binarySearch(int[] arr, int target) {
+        int low = 0, high = arr.length - 1, comparisons = 0;
+        while (low <= high) {
+            comparisons++;
+            int mid = low + (high - low) / 2;
+            if (arr[mid] == target) {
+                System.out.println("Found at index " + mid +
+                    " in " + comparisons + " comparisons");
+                return mid;
+            }
+            if (arr[mid] < target) low = mid + 1;
+            else high = mid - 1;
+        }
+        System.out.println("Not found after " + comparisons + " comparisons");
+        return -1;
+    }
+
+    public static void main(String[] args) {
+        int[] arr = {2, 5, 8, 12, 16, 23, 38, 45, 56, 72, 91};
+        System.out.print("Array: ");
+        for (int x : arr) System.out.print(x + " ");
+        System.out.println();
+
+        System.out.print("Search 38 (mid - best): ");
+        binarySearch(arr, 38);
+
+        System.out.print("Search 23 (average):    ");
+        binarySearch(arr, 23);
+
+        System.out.print("Search 100 (not found): ");
+        binarySearch(arr, 100);
+    }
+}
