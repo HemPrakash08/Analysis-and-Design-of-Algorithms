@@ -1,0 +1,41 @@
+public class RabinKarp {
+
+    static final int d = 256;
+    static final int q = 101; // prime
+
+    static void rabinKarp(String text, String pattern) {
+        int n = text.length(), m = pattern.length();
+        int h = 1, pHash = 0, tHash = 0, matches = 0;
+
+        // h = d^(m-1) % q
+        for (int i = 0; i < m - 1; i++) h = (h * d) % q;
+
+        // Initial hashes
+        for (int i = 0; i < m; i++) {
+            pHash = (d * pHash + pattern.charAt(i)) % q;
+            tHash = (d * tHash + text.charAt(i))    % q;
+        }
+
+        for (int i = 0; i <= n - m; i++) {
+            if (pHash == tHash) {
+                if (text.substring(i, i + m).equals(pattern)) {
+                    System.out.println("Pattern found at index " + i);
+                    matches++;
+                }
+            }
+            if (i < n - m) {
+                tHash = (d * (tHash - text.charAt(i) * h) + text.charAt(i + m)) % q;
+                if (tHash < 0) tHash += q;
+            }
+        }
+        System.out.println("Total matches: " + matches);
+    }
+
+    public static void main(String[] args) {
+        String text    = "GEEKS FOR GEEKS";
+        String pattern = "GEEKS";
+        System.out.println("Text   : " + text);
+        System.out.println("Pattern: " + pattern);
+        rabinKarp(text, pattern);
+    }
+}
