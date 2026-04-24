@@ -1,0 +1,29 @@
+public class NaiveStringMatch {
+
+    static void naiveSearch(String text, String pattern) {
+        int n = text.length(), m = pattern.length();
+        int comparisons = 0, matches = 0;
+
+        for (int i = 0; i <= n - m; i++) {
+            int j;
+            for (j = 0; j < m; j++) {
+                comparisons++;
+                if (text.charAt(i + j) != pattern.charAt(j)) break;
+            }
+            if (j == m) {
+                System.out.println("Pattern found at index " + i);
+                matches++;
+            }
+        }
+        System.out.println("Total matches    : " + matches);
+        System.out.println("Total comparisons: " + comparisons);
+    }
+
+    public static void main(String[] args) {
+        String text    = "AABAACAADAABAAABAA";
+        String pattern = "AABA";
+        System.out.println("Text   : " + text);
+        System.out.println("Pattern: " + pattern);
+        naiveSearch(text, pattern);
+    }
+}
