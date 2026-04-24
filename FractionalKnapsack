@@ -1,0 +1,43 @@
+import java.util.Arrays;
+
+public class FractionalKnapsack {
+
+    static class Item implements Comparable<Item> {
+        int weight, profit;
+        double ratio;
+        Item(int w, int p) { weight=w; profit=p; ratio=(double)p/w; }
+        public int compareTo(Item o) { return Double.compare(o.ratio, this.ratio); }
+    }
+
+    static double solve(int W, Item[] items) {
+        Arrays.sort(items);
+        double totalProfit = 0;
+        int remaining = W;
+        double[] fractions = new double[items.length];
+
+        for (int i = 0; i < items.length; i++) {
+            if (remaining <= 0) break;
+            if (items[i].weight <= remaining) {
+                fractions[i] = 1.0;
+                totalProfit += items[i].profit;
+                remaining -= items[i].weight;
+            } else {
+                fractions[i] = (double) remaining / items[i].weight;
+                totalProfit += fractions[i] * items[i].profit;
+                remaining = 0;
+            }
+        }
+        System.out.print("Selection vector: ");
+        for (double f : fractions) System.out.printf("%.2f  ", f);
+        System.out.println();
+        return totalProfit;
+    }
+
+    public static void main(String[] args) {
+        Item[] items = { new Item(10, 60), new Item(20, 100), new Item(30, 120) };
+        int W = 50;
+        System.out.println("Capacity = " + W);
+        double result = solve(W, items);
+        System.out.println("Maximum Profit = " + result);
+    }
+}
