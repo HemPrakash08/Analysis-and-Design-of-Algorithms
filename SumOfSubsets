@@ -1,0 +1,29 @@
+import java.util.*;
+
+public class SumOfSubsets {
+
+    static void solve(int[] arr, int idx, int remaining,
+                      List<Integer> current) {
+        if (remaining == 0) {
+            System.out.println(current);
+            return;
+        }
+        for (int i = idx; i < arr.length; i++) {
+            if (arr[i] <= remaining) {
+                current.add(arr[i]);
+                solve(arr, i + 1, remaining - arr[i], current);
+                current.remove(current.size() - 1);
+            }
+        }
+    }
+
+    public static void main(String[] args) {
+        int[] arr = {1, 2, 3, 4, 5};
+        int target = 6;
+        Arrays.sort(arr);
+        System.out.println("Set: " + Arrays.toString(arr));
+        System.out.println("Target Sum = " + target);
+        System.out.println("Subsets with sum " + target + ":");
+        solve(arr, 0, target, new ArrayList<>());
+    }
+}
