@@ -1,0 +1,38 @@
+import java.util.Arrays;
+
+public class ActivitySelection {
+
+    static class Activity {
+        int id, start, finish;
+        Activity(int id, int s, int f) { this.id=id; start=s; finish=f; }
+    }
+
+    static void selectActivities(Activity[] acts) {
+        // Sort by finish time
+        Arrays.sort(acts, (a, b) -> a.finish - b.finish);
+
+        System.out.println("Selected Activities:");
+        int lastFinish = -1, count = 0;
+        for (Activity a : acts) {
+            if (a.start >= lastFinish) {
+                System.out.println("  Activity " + a.id +
+                    " [" + a.start + ", " + a.finish + "]");
+                lastFinish = a.finish;
+                count++;
+            }
+        }
+        System.out.println("Maximum activities selected: " + count);
+    }
+
+    public static void main(String[] args) {
+        Activity[] acts = {
+            new Activity(1,1,4),  new Activity(2,3,5),
+            new Activity(3,0,6),  new Activity(4,5,7),
+            new Activity(5,3,9),  new Activity(6,5,9),
+            new Activity(7,6,10), new Activity(8,8,11),
+            new Activity(9,8,12), new Activity(10,2,14),
+            new Activity(11,12,16)
+        };
+        selectActivities(acts);
+    }
+}
